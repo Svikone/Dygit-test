@@ -3,6 +3,7 @@ import bodyParser from 'body-parser';
 import 'dotenv/config';
 import cors from 'cors';
 import MongoDB from './db';
+import RouteUser from './routes/user';
 
 class Server extends MongoDB {
   constructor() {
@@ -18,6 +19,7 @@ class Server extends MongoDB {
       extended: true,
       limit: '50mb',
     }));
+    this.app.use('/api/user', RouteUser.init());
     this.connect();
     this.app.listen(this.port, () => {
       console.error(`server started ${this.port}`);
