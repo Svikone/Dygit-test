@@ -1,35 +1,28 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import 'dotenv/config';
-import mongoose from 'mongoose';
 import cors from 'cors';
+import MongoDB from './db';
 
-const app = express();
-app.use(cors());
+class Server extends MongoDB {
+  constructor() {
+    super();
+    this.app = express();
+    this.port = process.env.PORT || 9000;
+  }
 
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json({
-  extended: true,
-  limit: '50mb',
-}));
-
-const port = process.env.PORT || 9000;
-async function start() {
-  try {
-    const url = process.env.DB_URL;
-    await mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
-    try {
-      console.log('Database is worked');
-    } catch (e) {
-      console.log('Database disconnect');
-      process.exit(1);
-    }
-
-    app.listen(port, () => {
-      console.error(`server started ${port}`);
+  init() {
+    this.app.use(cors());
+    this.app.use(bodyParser.urlencoded({ extended: true }));
+    this.app.use(bodyParser.json({
+      extended: true,
+      limit: '50mb',
+    }));
+    this.connect();
+    this.app.listen(this.port, () => {
+      console.error(`server started ${this.port}`);
     });
-  } catch (e) {
-    console.log(e);
   }
 }
-start();
+
+new Server().init();
