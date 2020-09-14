@@ -20,6 +20,7 @@ class Server extends MongoDB {
       limit: '50mb',
     }));
     this.app.use('/api/user', RouteUser.init());
+
     this.connect();
     this.app.listen(this.port, () => {
       console.error(`server started ${this.port}`);
