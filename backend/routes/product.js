@@ -8,6 +8,7 @@ class RouteProduct extends ProductController {
   }
 
   init() {
+    this.router.post('/add', this.addProduct);
     return this.router;
   }
 }
