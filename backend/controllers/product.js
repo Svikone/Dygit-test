@@ -1,3 +1,4 @@
+import fs from 'fs';
 import Product from '../models/product';
 
 export default class ProductController {
@@ -7,9 +8,6 @@ export default class ProductController {
       const product = new Product({
         name, description, url_img: req.files[0].filename,
       });
-      if (req.files.length === 0) {
-        product.url_img = '404.png';
-      }
       await product.save();
       res.send(product).status(200);
     } catch (e) {
@@ -21,6 +19,21 @@ export default class ProductController {
     try {
       const products = await Product.find();
       res.send(products).status(200);
+    } catch (e) {
+      return res.status(500).json({ e });
+    }
+  }
+
+  async deleteProduct(req, res) {
+    try {
+      const { _id } = req.params;
+      const product = await Product.findOne({ _id });
+      if (!product) {
+        return res.status(500).json({ message: 'No such entry found' });
+      }
+      fs.unlinkSync(`file/uploads/${product.url_img}`);
+      await Product.deleteOne({ _id });
+      res.send({ message: 'Product deleted' }).status(200);
     } catch (e) {
       return res.status(500).json({ e });
     }
