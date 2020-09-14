@@ -16,4 +16,13 @@ export default class ProductController {
       return res.status(500).json({ e });
     }
   }
+
+  async getProducts(req, res) {
+    try {
+      const products = await Product.find();
+      res.send(products).status(200);
+    } catch (e) {
+      return res.status(500).json({ e });
+    }
+  }
 }
