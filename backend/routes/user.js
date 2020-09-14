@@ -9,6 +9,8 @@ class RouteUser extends UserController {
 
   init() {
     this.router.post('/signup', this.signUp);
+    this.router.post('/signin', this.signIn);
+
     return this.router;
   }
 }
