@@ -41,16 +41,16 @@ export default class ProductController {
 
   async updateProduct(req, res) {
     try {
-      const { name, description } = req.body;
+      const { _id, name, description } = req.body;
       const newProduct = {
         name, description,
       };
       const url_img = req.files[0].filename;
-      const product = await Product.findOne({ _id: '5f606e8568124426b8813973' });
+      const product = await Product.findOne({ _id });
       if (req.files.length) {
         newProduct.url_img = url_img;
       }
-      const updateProduct = await Product.findOneAndUpdate({ _id: '5f606e8568124426b8813973' }, newProduct, {
+      const updateProduct = await Product.findOneAndUpdate({ _id }, newProduct, {
         new: true,
       });
       if (!updateProduct) {
