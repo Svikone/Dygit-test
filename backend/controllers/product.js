@@ -38,4 +38,29 @@ export default class ProductController {
       return res.status(500).json({ e });
     }
   }
+
+  async updateProduct(req, res) {
+    try {
+      const { name, description } = req.body;
+      const newProduct = {
+        name, description,
+      };
+      const url_img = req.files[0].filename;
+      const product = await Product.findOne({ _id: '5f606e8568124426b8813973' });
+      if (req.files.length) {
+        newProduct.url_img = url_img;
+      }
+      const updateProduct = await Product.findOneAndUpdate({ _id: '5f606e8568124426b8813973' }, newProduct, {
+        new: true,
+      });
+      if (!updateProduct) {
+        fs.unlinkSync(`file/uploads/${url_img}`);
+        return res.status(500).json({ message: 'errr' });
+      }
+      fs.unlinkSync(`file/uploads/${product.url_img}`);
+      return res.send({ message: 'Product update' }).status(200);
+    } catch (e) {
+      return res.status(500).json({ e });
+    }
+  }
 }
