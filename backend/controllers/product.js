@@ -1,5 +1,6 @@
 import fs from 'fs';
 import Product from '../models/product';
+import Expansion from '../middleware/expansion';
 
 export default class ProductController {
   async addProduct(req, res) {
@@ -24,6 +25,7 @@ export default class ProductController {
     }
   }
 
+  /// TODO delete product можно улучшить//
   async deleteProduct(req, res) {
     try {
       const { _id } = req.params;
@@ -42,22 +44,29 @@ export default class ProductController {
   async updateProduct(req, res) {
     try {
       const { _id, name, description } = req.body;
-      const newProduct = {
-        name, description,
-      };
-      const url_img = req.files[0].filename;
-      const product = await Product.findOne({ _id });
-      if (req.files.length) {
-        newProduct.url_img = url_img;
+      const urlImg = req.files[0].filename;
+      const permision = Expansion.fileFilter(req.files[0].mimetype);
+      if (!permision) {
+        Expansion.deleteImg(urlImg);
+        return res.status(500).json({ message: 'Wrong file type' });
       }
-      const updateProduct = await Product.findOneAndUpdate({ _id }, newProduct, {
-        new: true,
-      });
+
+      const product = await Product.findOne({ _id });
+      if (!product) {
+        Expansion.deleteImg(urlImg);
+        return res.status(404).json({ message: 'Doc is not exist' });
+      }
+      const oldImg = product.url_img;
+      product.name = name;
+      product.description = description;
+      product.url_img = req.files.length ? urlImg : oldImg;
+      const updateProduct = await product.save();
+
       if (!updateProduct) {
-        fs.unlinkSync(`file/uploads/${url_img}`);
+        Expansion.deleteImg(urlImg);
         return res.status(500).json({ message: 'errr' });
       }
-      fs.unlinkSync(`file/uploads/${product.url_img}`);
+      Expansion.deleteImg(oldImg);
       return res.send({ message: 'Product update' }).status(200);
     } catch (e) {
       return res.status(500).json({ e });
