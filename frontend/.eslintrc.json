@@ -3,12 +3,17 @@
     "browser": true,
     "es2021": true
   },
-  "extends": "airbnb",
+  "extends": [
+    "airbnb",
+    "react-app",
+    "eslint:recommended",
+    "plugin:react/recommended"
+  ],
   "parserOptions": {
     "ecmaFeatures": {
       "jsx": true
     },
-    "ecmaVersion": 12,
+    "ecmaVersion": 2018,
     "sourceType": "module"
   },
   "plugins": ["react"],
