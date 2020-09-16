@@ -25,17 +25,16 @@ export default class ProductController {
     }
   }
 
-  /// TODO delete product можно улучшить//
   async deleteProduct(req, res) {
     try {
       const { _id } = req.params;
-      const product = await Product.findOne({ _id });
+      const product = await Product.findOneAndDelete({ _id });
+
       if (!product) {
-        return res.status(500).json({ message: 'No such entry found' });
+        return res.status(500).json({ message: 'Removal is not possible' });
       }
-      fs.unlinkSync(`file/uploads/${product.url_img}`);
-      await Product.deleteOne({ _id });
-      res.send({ message: 'Product deleted' }).status(200);
+      Expansion.deleteImg(product.url_img);
+      return res.send({ message: 'Product deleted' }).status(200);
     } catch (e) {
       return res.status(500).json({ e });
     }
