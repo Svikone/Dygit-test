@@ -1,6 +1,5 @@
-import fs from 'fs';
 import Product from '../models/product';
-import Expansion from '../middleware/expansion';
+import Expansion from '../shared/expansion';
 
 export default class ProductController {
   async addProduct(req, res) {

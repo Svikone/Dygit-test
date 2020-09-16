@@ -1,6 +1,6 @@
 import fs from 'fs';
 
-class ExpansionMiddleware {
+class Expansion {
   constructor() {
     this.permittedTypes = [
       'image/png', 'image/jpeg',
@@ -17,4 +17,4 @@ class ExpansionMiddleware {
   }
 }
 
-module.exports = new ExpansionMiddleware();
+module.exports = new Expansion();
