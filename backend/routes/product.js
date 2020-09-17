@@ -10,8 +10,8 @@ class RouteProduct extends ProductController {
   init() {
     this.router.put('/', this.updateProduct);
     this.router.get('/', this.getProducts);
-    this.router.delete('/by/:_id', this.deleteProduct);
-    this.router.post('/add', this.addProduct);
+    this.router.delete('/:_id', this.deleteProduct);
+    this.router.post('/', this.addProduct);
     return this.router;
   }
 }
