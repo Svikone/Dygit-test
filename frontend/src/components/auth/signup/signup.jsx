@@ -3,11 +3,16 @@ import Button from "@material-ui/core/Button";
 import { Formik, Form, Field } from "formik";
 import { TextField } from "formik-material-ui";
 import { Link } from "react-router-dom";
+import httpServices from "../../../services/http.service";
+import history from "../../../shared/history.js";
 
 const Signup = (props) => {
-  const onSubmit = (values, { resetForm }) => {
-    console.log(values);
-    resetForm({});
+  const onSubmit = async (values, { resetForm }) => {
+    try {
+      await httpServices.post("user/signup", values);
+      resetForm({});
+      history.push("/auth/signin");
+    } catch (error) {}
   };
 
   return (

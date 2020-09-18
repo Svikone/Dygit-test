@@ -5,11 +5,11 @@ import history from "../shared/history";
 
 function* signinWorker(user) {
     console.log(user)
+    console.log(user)
   try {
     const token = yield call(httpServices.post, "user/signin", user.payload)
     console.log(token)
     localStorage.setItem('token', token.data.token);
-    yield put(authActions.signinSucces(token.data.token))
     history.push("/main/products")
   } 
   catch (error) {
