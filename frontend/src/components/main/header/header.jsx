@@ -16,7 +16,7 @@ function Header() {
           <Link to="/main/create/product">
             <Button color="inherit">Add product</Button>
           </Link>
-          <Link to="/auth/signin">
+          <Link className="right" to="/auth/signin">
             <Button color="inherit">Login</Button>
           </Link>
         </Toolbar>

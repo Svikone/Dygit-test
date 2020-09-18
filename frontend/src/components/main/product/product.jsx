@@ -46,6 +46,10 @@ function Product() {
                 style={{ display: "none" }}
               />
             </Button>
+            {errors.file && touched.file ? (
+              <div className="error">{errors.file}</div>
+            ) : null}
+
             <Field
               component={TextField}
               name="name"

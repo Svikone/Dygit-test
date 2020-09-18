@@ -23,3 +23,21 @@ a {
   color: white;
   text-decoration: none;
 }
+
+.error {
+  font-size: 14px;
+  color: red;
+}
+
+.makeStyles-root-1 {
+  margin: 10px;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+}
+
+.right {
+  margin-left: auto;
+}
