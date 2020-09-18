@@ -18,3 +18,8 @@ form {
   max-width: 618px;
   margin: auto;
 }
+
+a {
+  color: white;
+  text-decoration: none;
+}
