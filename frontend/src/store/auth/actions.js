@@ -1,24 +1,24 @@
-export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
-export const LOGIN = "LOGIN";
-export const LOGIN_ERROR = "LOGIN_ERROR";
+export const SIGNIN_SUCCESS = "SIGNIN_SUCCESS";
+export const SIGNIN = "SIGNIN";
+export const SIGNIN_ERROR = "SIGNIN_ERROR";
 
-export const loginSucces = (token) => {
+export const signinSucces = (token) => {
     return {
-        type: LOGIN_SUCCESS,
-        payload: token
+        type: SIGNIN_SUCCESS,
+        // payload: token
     }
 }
 
-export const setLoginData = (data) => {
+export const setSigninData = (data) => {
     return {
-        type: LOGIN,
+        type: SIGNIN,
         payload: data
     }
 }
 
-export const loginError = (error) => {
+export const signinError = (error) => {
     return {
-        type: LOGIN_ERROR,
-        payload: error,
+        type: SIGNIN_ERROR,
+        // payload: error,
     }
 }

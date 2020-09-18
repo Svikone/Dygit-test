@@ -2,6 +2,7 @@ import React from "react";
 import Button from "@material-ui/core/Button";
 import { Formik, Form, Field } from "formik";
 import { TextField } from "formik-material-ui";
+import { Link } from "react-router-dom";
 
 const Signup = (props) => {
   const onSubmit = (values, { resetForm }) => {
@@ -69,6 +70,11 @@ const Signup = (props) => {
           </Form>
         )}
       </Formik>
+      <Link to="/auth/signin">
+        <Button variant="contained" color="primary" className="m-top">
+          Login
+        </Button>
+      </Link>
     </div>
   );
 };

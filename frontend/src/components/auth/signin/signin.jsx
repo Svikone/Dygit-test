@@ -1,11 +1,14 @@
 import React from "react";
 import Button from "@material-ui/core/Button";
 import { Formik, Form, Field } from "formik";
+import { setSigninData } from "../../../store/auth/actions";
+import { connect } from "react-redux";
 import { TextField } from "formik-material-ui";
+import { Link } from "react-router-dom";
 
 const Signin = (props) => {
   const onSubmit = (values, { resetForm }) => {
-    console.log(values);
+    props.setSigninData(values);
     resetForm({});
   };
 
@@ -54,8 +57,19 @@ const Signin = (props) => {
           </Form>
         )}
       </Formik>
+      <Link to="/auth/signup">
+        <Button variant="contained" color="primary" className="m-top">
+          Register
+        </Button>
+      </Link>
     </div>
   );
 };
 
-export default Signin;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setSigninData: (values) => dispatch(setSigninData(values)),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(Signin);
