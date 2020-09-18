@@ -21,11 +21,14 @@ function Product() {
           let errors = {};
           if (!value.name) {
             errors.name = "Enter product name";
-          } else if (!/^[a-zA-Z]*$/i.test(value.name)) {
+          } else if (/[^-А-ЯA-Z\x27а-яa-z]/.test(value.name)) {
             errors.name = "The name contains incorrect characters";
           }
           if (!value.description) {
             errors.description = "Enter a description";
+          }
+          if (!value.file) {
+            errors.file = "Select image";
           }
           return errors;
         }}
