@@ -1,4 +1,4 @@
-import { SIGNIN, SIGNIN_ERROR, SIGNIN_SUCCESS } from "./actions";
+import *as actions from "./actions";
 
 const defaultState = {
     token: "", 
@@ -7,17 +7,17 @@ const defaultState = {
 
 export const authReducer = (state = defaultState, action) => {
     switch(action.type) {
-        case SIGNIN:
+        case actions.SIGNIN:
         return {
             ...state,
             // data: action.payload
             }
-        case SIGNIN_SUCCESS:
+        case actions.SIGNIN_SUCCESS:
         return {
             ...state,
             // token: action.payload
             }
-        case SIGNIN_ERROR:
+        case actions.SIGNIN_ERROR:
         return {
             ...state,
             // errorMessage: action.payload,
