@@ -70,4 +70,17 @@ export default class ProductController {
       return res.status(500).json({ e });
     }
   }
+
+  async getProductById(req, res) {
+    try {
+      const { _id } = req.params;
+      const product = await Product.findOne(_id);
+      if (!product) {
+        return res.status(500).json({ message: 'Product not found' });
+      }
+      res.send(product).status(200);
+    } catch (e) {
+      return res.status(500).json({ e });
+    }
+  }
 }
