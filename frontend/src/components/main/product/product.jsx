@@ -28,7 +28,7 @@ function Product() {
             errors.description = "Enter a description";
           }
           if (!value.file) {
-            errors.file = "Select image";
+            errors.file = "choose File";
           }
           return errors;
         }}
