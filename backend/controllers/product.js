@@ -48,29 +48,38 @@ export default class ProductController {
   async updateProduct(req, res) {
     try {
       const { _id, name, description } = req.body;
-      const urlImg = req.files[0].filename;
-      const permision = Expansion.fileFilter(req.files[0].mimetype);
-      if (!permision) {
-        Expansion.deleteImg(urlImg);
-        return res.status(500).json({ message: 'Wrong file type' });
-      }
-
-      const product = await Product.findOne(mongoose.ObjectId(_id));
+      const filesLength = req.files.length;
+      const product = await Product.findOne(mongoose.Types.ObjectId(_id));
       if (!product) {
-        Expansion.deleteImg(urlImg);
+        if (filesLength) {
+          const urlImg = req.files[0].filename;
+          Expansion.deleteImg(urlImg);
+        }
         return res.status(404).json({ message: 'Doc is not exist' });
+      }
+      let urlImg = '';
+      if (filesLength) {
+        urlImg = req.files[0].filename;
+        const permision = Expansion.fileFilter(req.files[0].mimetype);
+        if (!permision) {
+          Expansion.deleteImg(urlImg);
+          return res.status(500).json({ message: 'Wrong file type' });
+        }
       }
       const oldImg = product.url_img;
       product.name = name;
       product.description = description;
-      product.url_img = req.files.length ? urlImg : oldImg;
+      product.url_img = filesLength ? urlImg : oldImg;
       const updateProduct = await product.save();
-
       if (!updateProduct) {
-        Expansion.deleteImg(urlImg);
+        if (filesLength) {
+          Expansion.deleteImg(urlImg);
+        }
         return res.status(500).json({ message: 'errr' });
       }
-      Expansion.deleteImg(oldImg);
+      if (filesLength) {
+        Expansion.deleteImg(oldImg);
+      }
       return res.send({ message: 'Product update' }).status(200);
     } catch (e) {
       return res.status(500).json({ e });
@@ -80,7 +89,7 @@ export default class ProductController {
   async getProductById(req, res) {
     try {
       const { _id } = req.params;
-      const product = await Product.findOne(_id);
+      const product = await Product.findOne({ _id });
       if (!product) {
         return res.status(500).json({ message: 'Product not found' });
       }
