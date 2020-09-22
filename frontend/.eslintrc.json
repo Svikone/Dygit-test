@@ -5,5 +5,8 @@
     "ecmaFeatures": {
       "jsx": true
     }
+  },
+  "globals": {
+    "localStorage": true
   }
 }

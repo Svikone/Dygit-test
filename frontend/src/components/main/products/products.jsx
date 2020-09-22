@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
-import { connect } from "react-redux";
-import { getProducts } from "../../../store/main/products/actions.js";
-import ProductCard from "./card/card";
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
+import { getProducts } from '../../../store/main/product/actions.js';
+import ProductCard from './card/card';
 
 function Products(props) {
   useEffect(() => {
@@ -26,16 +26,12 @@ function Products(props) {
   );
 }
 
-const mapStateToProps = (state) => {
-  return {
-    products: state.products.product,
-  };
-};
+const mapStateToProps = (state) => ({
+  products: state.products.products,
+});
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    getProducts: () => dispatch(getProducts()),
-  };
-};
+const mapDispatchToProps = (dispatch) => ({
+  getProducts: () => dispatch(getProducts()),
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(Products);
