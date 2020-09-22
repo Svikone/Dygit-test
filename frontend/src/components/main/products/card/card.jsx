@@ -1,5 +1,5 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import React from "react";
+import { makeStyles } from "@material-ui/core/styles";
 import {
   Card,
   CardActionArea,
@@ -9,10 +9,12 @@ import {
   Button,
   Typography,
   IconButton,
-} from '@material-ui/core';
-import DeleteIcon from '@material-ui/icons/Delete';
-import { Link } from 'react-router-dom';
-import environment from '../../../../environment/environment';
+} from "@material-ui/core";
+import DeleteIcon from "@material-ui/icons/Delete";
+import { Link } from "react-router-dom";
+import environment from "../../../../environment/environment";
+import { connect } from "react-redux";
+import { deleteProduct } from "../../../../store/main/product/actions";
 
 const useStyles = makeStyles({
   root: {
@@ -48,7 +50,11 @@ function ProductCard(props) {
               Edit
             </Button>
           </Link>
-          <IconButton aria-label="delete" className="right">
+          <IconButton
+            aria-label="delete"
+            className="right"
+            onClick={() => props.deleteProduct(props.item._id)}
+          >
             <DeleteIcon />
           </IconButton>
         </CardActions>
@@ -57,4 +63,8 @@ function ProductCard(props) {
   );
 }
 
-export default ProductCard;
+const mapDispatchToProps = (dispatch) => ({
+  deleteProduct: (id) => dispatch(deleteProduct(id)),
+});
+
+export default connect(null, mapDispatchToProps)(ProductCard);

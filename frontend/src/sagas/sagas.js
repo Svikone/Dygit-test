@@ -39,9 +39,26 @@ function* updateProductWorker(product) {
   }
 }
 
+function* addProductWorker(product) {
+  try {
+    yield call(httpServices.post, 'product', product.payload);
+  } catch (error) {
+  }
+}
+
+function* deleteProductWorker(id) {
+  try {
+    yield call(httpServices.delete, `product/${id.payload}`);
+    yield put(productsActions.getProducts());
+  } catch (error) {
+  }
+}
+
 export default function* watchLoadData() {
   yield takeEvery(authActions.SIGNIN, signinWorker);
   yield takeEvery(productsActions.GET_PRODUCTS, getProductsWorker);
   yield takeEvery(productsActions.GET_PRODUCT_BY_ID, getProductByIdWorker);
   yield takeEvery(productsActions.UPDATE_PRODUCT, updateProductWorker);
+  yield takeEvery(productsActions.ADD_PRODUCT, addProductWorker);
+  yield takeEvery(productsActions.DELETE_PRODUCT, deleteProductWorker);
 }
