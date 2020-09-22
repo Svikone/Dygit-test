@@ -1,49 +1,80 @@
-import React from "react";
-import Button from "@material-ui/core/Button";
-import { Formik, Form, Field } from "formik";
-import { TextField } from "formik-material-ui";
+import React, { useEffect } from 'react';
+import Button from '@material-ui/core/Button';
+import { Formik, Form, Field } from 'formik';
+import { TextField } from 'formik-material-ui';
+import { connect } from 'react-redux';
+import {
+  getProductById,
+  updateProduct,
+} from '../../../store/main/product/actions';
 
-function Product() {
+function Product(props) {
+  useEffect(() => {
+    if (props.match.params.id) {
+      props.getProductById(props.match.params.id);
+    }
+  }, []);
+
   const onSubmit = (values, { resetForm }) => {
-    console.log(values);
+    const data = new FormData();
+    data.append('url_img', values.file);
+    data.append('name', values.name);
+    data.append('description', values.description);
+    data.append('_id', props.match.params.id);
+    props.updateProduct(data);
+    console.log(data);
     resetForm({});
   };
 
   return (
     <div className="">
       <Formik
+        enableReinitialize
         initialValues={{
-          name: "",
-          description: "",
-          file: "",
+          name: props.selectedProduct.name,
+          description: props.selectedProduct.description,
+          file: '',
         }}
         validate={(value) => {
-          let errors = {};
+          const errors = {};
           if (!value.name) {
-            errors.name = "Enter product name";
+            errors.name = 'Enter product name';
           } else if (/[^-А-ЯA-Z\x27а-яa-z]/.test(value.name)) {
-            errors.name = "The name contains incorrect characters";
+            errors.name = 'The name contains incorrect characters';
           }
           if (!value.description) {
-            errors.description = "Enter a description";
+            errors.description = 'Enter a description';
           }
-          if (!value.file) {
-            errors.file = "choose File";
+          if (props.match.params.id) {
+          } else if (!value.file) {
+            errors.file = 'choose File';
           }
           return errors;
         }}
         onSubmit={onSubmit}
       >
-        {({ errors, handleSubmit, handleChange, touched, values }) => (
+        {({
+          errors,
+          handleSubmit,
+          handleChange,
+          touched,
+          values,
+          setFieldValue,
+        }) => (
           <Form onSubmit={handleSubmit}>
-            <h1>Add product</h1>
+            {props.match.params.id ? (
+              <h1>Update product</h1>
+            ) : (
+              <h1>Add product</h1>
+            )}
+
             <Button variant="contained" component="label">
               Upload File
-              <Field
+              <input
                 type="file"
                 name="file"
-                onChange={handleChange}
-                style={{ display: "none" }}
+                onChange={(ev) => setFieldValue('file', ev.currentTarget.files[0])}
+                style={{ display: 'none' }}
               />
             </Button>
             {errors.file && touched.file ? (
@@ -74,4 +105,13 @@ function Product() {
   );
 }
 
-export default Product;
+const mapStateToProps = (state) => ({
+  selectedProduct: state.products.selectedProduct,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  getProductById: (id) => dispatch(getProductById(id)),
+  updateProduct: (product) => dispatch(updateProduct(product)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Product);

@@ -1,5 +1,5 @@
-import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import React from 'react';
+import { makeStyles } from '@material-ui/core/styles';
 import {
   Card,
   CardActionArea,
@@ -9,9 +9,10 @@ import {
   Button,
   Typography,
   IconButton,
-} from "@material-ui/core";
-import DeleteIcon from "@material-ui/icons/Delete";
-import environment from "../../../../environment/environment";
+} from '@material-ui/core';
+import DeleteIcon from '@material-ui/icons/Delete';
+import { Link } from 'react-router-dom';
+import environment from '../../../../environment/environment';
 
 const useStyles = makeStyles({
   root: {
@@ -42,9 +43,11 @@ function ProductCard(props) {
           </CardContent>
         </CardActionArea>
         <CardActions>
-          <Button size="small" color="primary">
-            Edit
-          </Button>
+          <Link to={`/main/edit/product/${props.item.url_img}`}>
+            <Button size="small" color="primary">
+              Edit
+            </Button>
+          </Link>
           <IconButton aria-label="delete" className="right">
             <DeleteIcon />
           </IconButton>
