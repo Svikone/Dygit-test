@@ -77,7 +77,7 @@ export default class ProductController {
         }
         return res.status(500).json({ message: 'errr' });
       }
-      if (filesLength) {
+      if (filesLength && oldImg !== '404.png') {
         Expansion.deleteImg(oldImg);
       }
       return res.send({ message: 'Product update' }).status(200);
