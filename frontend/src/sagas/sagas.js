@@ -24,7 +24,8 @@ function* getProductsWorker() {
 
 function* getProductByIdWorker(id) {
   try {
-    const selectProduct = yield call(httpServices.get, `product/by/${id}`);
+    const selectProduct = yield call(httpServices.get, `product/by/${id.payload}`);
+    console.log(selectProduct);
     yield put(productsActions.getProductByIdSuccess(selectProduct.data));
   } catch (error) {
   }

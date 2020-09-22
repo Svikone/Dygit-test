@@ -22,7 +22,6 @@ function Product(props) {
     data.append('description', values.description);
     data.append('_id', props.match.params.id);
     props.updateProduct(data);
-    console.log(data);
     resetForm({});
   };
 
@@ -44,10 +43,6 @@ function Product(props) {
           }
           if (!value.description) {
             errors.description = 'Enter a description';
-          }
-          if (props.match.params.id) {
-          } else if (!value.file) {
-            errors.file = 'choose File';
           }
           return errors;
         }}

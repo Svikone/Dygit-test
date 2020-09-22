@@ -43,7 +43,7 @@ function ProductCard(props) {
           </CardContent>
         </CardActionArea>
         <CardActions>
-          <Link to={`/main/edit/product/${props.item.url_img}`}>
+          <Link to={`/main/edit/product/${props.item._id}`}>
             <Button size="small" color="primary">
               Edit
             </Button>
