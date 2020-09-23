@@ -23,10 +23,18 @@ export default class ProductController {
   }
 
   async getProducts(req, res) {
+    const { userId } = req.user;
+    const {
+      page, collections, pages, skip,
+    } = await Expansion.pagination(req.query.page, Product, userId);
     try {
-      const { userId } = req.user;
-      const products = await Product.find({ userId });
-      res.send(products).status(200);
+      const products = await Product.find({ userId }).skip(skip).limit(10);
+      res.send({
+        products,
+        collections,
+        pages,
+        page,
+      }).status(200);
     } catch (e) {
       return res.status(500).json({ e });
     }
