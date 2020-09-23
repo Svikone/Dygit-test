@@ -24,7 +24,8 @@ export default class ProductController {
 
   async getProducts(req, res) {
     try {
-      const products = await Product.find();
+      const { userId } = req.user;
+      const products = await Product.find({ userId });
       res.send(products).status(200);
     } catch (e) {
       return res.status(500).json({ e });

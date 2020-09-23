@@ -9,10 +9,10 @@ class RouteProduct extends ProductController {
   }
 
   init() {
-    this.router.put('/', this.updateProduct);
-    this.router.get('/', this.getProducts);
-    this.router.get('/by/:_id', this.getProductById);
-    this.router.delete('/:_id', this.deleteProduct);
+    this.router.put('/', AuthMiddleware.authenticate, this.updateProduct);
+    this.router.get('/', AuthMiddleware.authenticate, this.getProducts);
+    this.router.get('/by/:_id', AuthMiddleware.authenticate, this.getProductById);
+    this.router.delete('/:_id', AuthMiddleware.authenticate, this.deleteProduct);
     this.router.post('/', AuthMiddleware.authenticate, this.addProduct);
     return this.router;
   }
