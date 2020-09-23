@@ -40,7 +40,9 @@ export default class ProductController {
       if (!product) {
         return res.status(500).json({ message: 'Removal is not possible' });
       }
-      Expansion.deleteImg(product.url_img);
+      if (product.url_img !== '404.png') {
+        Expansion.deleteImg(product.url_img);
+      }
       return res.send({ message: 'Product deleted' }).status(200);
     } catch (e) {
       return res.status(500).json({ e });
