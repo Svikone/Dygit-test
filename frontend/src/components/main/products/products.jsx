@@ -18,6 +18,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const productStyle = {
+  width: "700px",
+  display: "flex",
+  justifyContent: "space-between",
+  flexWrap: "wrap",
+  margin: "auto",
+};
+
 function Products(props) {
   const classes = useStyles();
   const [page, setPage] = React.useState(1);
@@ -43,7 +51,7 @@ function Products(props) {
       {props.products.length ? (
         <div className="">
           <h1>All products</h1>
-          <div className="container">
+          <div className="container" style={productStyle}>
             {props.products.map((item, i) => (
               <ProductCard key={item._id} item={item} />
             ))}

@@ -33,12 +33,6 @@ a {
   margin: 10px;
 }
 
-.container {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
 .right {
   margin-left: auto !important;
 }

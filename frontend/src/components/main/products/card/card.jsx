@@ -19,6 +19,7 @@ import { deleteProduct } from "../../../../store/main/product/actions";
 const useStyles = makeStyles({
   root: {
     maxWidth: 345,
+    marginTop: "10px",
   },
 });
 
