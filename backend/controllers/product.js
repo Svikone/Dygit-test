@@ -6,8 +6,9 @@ export default class ProductController {
   async addProduct(req, res) {
     try {
       const { name, description } = req.body;
+      const { userId } = req.user;
       const product = {
-        name, description,
+        name, description, userId,
       };
       if (req.files.length > 0) {
         product.url_img = req.files[0].filename;

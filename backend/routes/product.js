@@ -1,5 +1,6 @@
 import express from 'express';
 import ProductController from '../controllers/product';
+import AuthMiddleware from '../middleware/auth';
 
 class RouteProduct extends ProductController {
   constructor() {
@@ -12,7 +13,7 @@ class RouteProduct extends ProductController {
     this.router.get('/', this.getProducts);
     this.router.get('/by/:_id', this.getProductById);
     this.router.delete('/:_id', this.deleteProduct);
-    this.router.post('/', this.addProduct);
+    this.router.post('/', AuthMiddleware.authenticate, this.addProduct);
     return this.router;
   }
 }

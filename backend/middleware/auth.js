@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 
 class AuthMiddleware {
-  async authenticate(req, res) {
+  async authenticate(req, res, next) {
     const json_token = req.headers['x-access-token'];
     if (!json_token) {
       return res.status(404).send({ message: 'Not access token' });
