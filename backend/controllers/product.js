@@ -61,15 +61,16 @@ export default class ProductController {
     try {
       const { _id, name, description } = req.body;
       const filesLength = req.files.length;
+      let urlImg = '';
       const product = await Product.findOne(mongoose.Types.ObjectId(_id));
+
       if (!product) {
         if (filesLength) {
-          const urlImg = req.files[0].filename;
-          Expansion.deleteImg(urlImg);
+          Expansion.deleteImg(req.files[0].filename);
         }
         return res.status(404).json({ message: 'Doc is not exist' });
       }
-      let urlImg = '';
+
       if (filesLength) {
         urlImg = req.files[0].filename;
         const permision = Expansion.fileFilter(req.files[0].mimetype);
