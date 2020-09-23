@@ -1,6 +1,7 @@
 import { takeEvery, put, call } from 'redux-saga/effects';
 import * as authActions from '../store/auth/actions';
 import * as productsActions from '../store/main/product/actions';
+import * as appActions from '../store/app/actions';
 import httpServices from '../services/http.service';
 import history from '../shared/history';
 
@@ -20,6 +21,11 @@ function* getProductsWorker(page) {
     const products = yield call(httpServices.get, `product?page=${page.payload}`);
     yield put(productsActions.getProductsSuccess(products.data));
   } catch (error) {
+    const options = {
+      message: error.message.response,
+      style: 'error',
+    };
+    yield put(appActions.showNatification(options));
   }
 }
 

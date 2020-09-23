@@ -7,9 +7,9 @@ const defaultState = {
     description: '',
   },
   data: {
-    collections: '',
-    page: '',
-    pages: '',
+    collections: null,
+    page: null,
+    pages: null,
     products: [],
   },
 };

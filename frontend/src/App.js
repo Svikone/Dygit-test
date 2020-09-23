@@ -12,6 +12,7 @@ import history from './shared/history';
 import rootReducer from './store/reducers';
 import watchLoadData from './sagas/sagas';
 import './App.css';
+import Natification from './shared/natification.jsx';
 
 const sagaMiidleware = createSagaMiddleware();
 const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(logger, sagaMiidleware)));
@@ -19,17 +20,20 @@ sagaMiidleware.run(watchLoadData);
 
 function App() {
   return (
-    <Provider store={store}>
-      <Router history={history}>
-        <div className="App">
-          <Switch>
-            <Route path="/auth" component={Auth} />
-            <Route path="/main" component={Main} />
-            <Redirect from="/" to="/main/products" />
-          </Switch>
-        </div>
-      </Router>
-    </Provider>
+    <>
+      <Provider store={store}>
+        <Natification />
+        <Router history={history}>
+          <div className="App">
+            <Switch>
+              <Route path="/auth" component={Auth} />
+              <Route path="/main" component={Main} />
+              <Redirect from="/" to="/main/products" />
+            </Switch>
+          </div>
+        </Router>
+      </Provider>
+    </>
   );
 }
 
