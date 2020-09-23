@@ -21,8 +21,8 @@ function Product(props) {
     data.append("url_img", values.file);
     data.append("name", values.name);
     data.append("description", values.description);
-    data.append("_id", props.match.params.id);
     if (props.match.params.id) {
+      data.append("_id", props.match.params.id);
       props.updateProduct(data);
     } else {
       props.addProduct(data);
