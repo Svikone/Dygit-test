@@ -14,9 +14,10 @@ function* signinWorker(user) {
   }
 }
 
-function* getProductsWorker() {
+function* getProductsWorker(page) {
+  console.log(page);
   try {
-    const products = yield call(httpServices.get, 'product');
+    const products = yield call(httpServices.get, `product?page=${page.payload}`);
     yield put(productsActions.getProductsSuccess(products.data));
   } catch (error) {
   }

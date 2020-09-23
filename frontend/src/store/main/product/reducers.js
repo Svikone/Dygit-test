@@ -6,7 +6,12 @@ const defaultState = {
     name: '',
     description: '',
   },
-  products: [],
+  data: {
+    collections: '',
+    page: '',
+    pages: '',
+    products: [],
+  },
 };
 
 export const productsReducer = (state = defaultState, action) => {
@@ -14,7 +19,7 @@ export const productsReducer = (state = defaultState, action) => {
     case actions.GET_PRODUCTS_SUCCESS:
       return {
         ...state,
-        products: action.payload,
+        data: action.payload,
       };
     case actions.GET_PRODUCT_BY_ID_SUCCESS:
       return {

@@ -6,8 +6,9 @@ export const UPDATE_PRODUCT = 'UPDATE_PRODUCT';
 export const ADD_PRODUCT = 'ADD_PRODUCT';
 export const DELETE_PRODUCT = 'DELETE_PRODUCT';
 
-export const getProducts = () => ({
+export const getProducts = (page) => ({
   type: GET_PRODUCTS,
+  payload: page,
 });
 
 export const getProductsSuccess = (data) => ({
