@@ -6,13 +6,10 @@ export default class UserController {
   async signUp(req, res) {
     try {
       const { name, email, password } = req.body;
-      const userName = await User.findOne({ name });
-      if (!password || password.length < 2) {
-        return res.status(500).json({ message: 'Password length mast be > 2 symbol' });
+      if (!password || password.length < 1) {
+        return res.status(500).json({ message: 'Password length must be 1 or more characters' });
       }
-      if (userName) {
-        return res.status(402).json({ message: 'You cannot use a name like this' });
-      }
+
       const hashPassword = await bcryptjs.hash(password, 10);
       const user = new User({
         name, email, password: hashPassword,
@@ -20,7 +17,11 @@ export default class UserController {
       await user.save();
       res.send({ message: 'Register is successful' }).status(200);
     } catch (e) {
-      return res.status(500).json({ e });
+      let message = e;
+      if (e.code = 1100) {
+        message = 'This name is reserved';
+      }
+      return res.status(500).json({ message });
     }
   }
 
