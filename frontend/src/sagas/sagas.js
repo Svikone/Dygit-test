@@ -11,12 +11,15 @@ function* signinWorker(user) {
     localStorage.setItem('token', token.data.token);
     history.push('/main/products');
   } catch (error) {
-    yield put(authActions.signinError(error.response.data.message));
+    const options = {
+      message: error.response.data.message,
+      style: 'error',
+    };
+    yield put(appActions.showNatification(options));
   }
 }
 
 function* getProductsWorker(page) {
-  console.log(page);
   try {
     const products = yield call(httpServices.get, `product?page=${page.payload}`);
     yield put(productsActions.getProductsSuccess(products.data));
@@ -32,7 +35,6 @@ function* getProductsWorker(page) {
 function* getProductByIdWorker(id) {
   try {
     const selectProduct = yield call(httpServices.get, `product/by/${id.payload}`);
-    console.log(selectProduct);
     yield put(productsActions.getProductByIdSuccess(selectProduct.data));
   } catch (error) {
   }
@@ -43,6 +45,11 @@ function* updateProductWorker(product) {
     yield call(httpServices.put, 'product', product.payload);
     history.push('/main/products');
   } catch (error) {
+    const options = {
+      message: error.response.data.message,
+      style: 'error',
+    };
+    yield put(appActions.showNatification(options));
   }
 }
 
@@ -50,6 +57,11 @@ function* addProductWorker(product) {
   try {
     yield call(httpServices.post, 'product', product.payload);
   } catch (error) {
+    const options = {
+      message: error.message.response,
+      style: 'error',
+    };
+    yield put(appActions.showNatification(options));
   }
 }
 

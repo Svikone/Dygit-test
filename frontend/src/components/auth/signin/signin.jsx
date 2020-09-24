@@ -1,10 +1,10 @@
-import React from "react";
-import Button from "@material-ui/core/Button";
-import { Formik, Form, Field } from "formik";
-import { setSigninData } from "../../../store/auth/actions";
-import { connect } from "react-redux";
-import { TextField } from "formik-material-ui";
-import { Link } from "react-router-dom";
+import React from 'react';
+import Button from '@material-ui/core/Button';
+import { Formik, Form, Field } from 'formik';
+import { connect } from 'react-redux';
+import { TextField } from 'formik-material-ui';
+import { Link } from 'react-router-dom';
+import { setSigninData } from '../../../store/auth/actions';
 
 const Signin = (props) => {
   const onSubmit = (values, { resetForm }) => {
@@ -16,24 +16,26 @@ const Signin = (props) => {
     <div className="">
       <Formik
         initialValues={{
-          name: "",
-          password: "",
+          name: '',
+          password: '',
         }}
         validate={(value) => {
-          let errors = {};
+          const errors = {};
           if (!value.name) {
-            errors.name = "Fill in the name";
+            errors.name = 'Fill in the name';
           } else if (/[^-А-ЯA-Z\x27а-яa-z]/.test(value.name)) {
-            errors.name = "The name contains incorrect characters";
+            errors.name = 'The name contains incorrect characters';
           }
           if (!value.password) {
-            errors.password = "Fill in your password";
+            errors.password = 'Fill in your password';
           }
           return errors;
         }}
         onSubmit={onSubmit}
       >
-        {({ errors, handleSubmit, handleChange, touched, values }) => (
+        {({
+          errors, handleSubmit, handleChange, touched, values,
+        }) => (
           <Form onSubmit={handleSubmit}>
             <h1>SIGN IN</h1>
 
@@ -66,10 +68,8 @@ const Signin = (props) => {
   );
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    setSigninData: (values) => dispatch(setSigninData(values)),
-  };
-};
+const mapDispatchToProps = (dispatch) => ({
+  setSigninData: (values) => dispatch(setSigninData(values)),
+});
 
 export default connect(null, mapDispatchToProps)(Signin);
