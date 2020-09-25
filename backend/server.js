@@ -26,10 +26,7 @@ class Server extends MongoDB {
     }));
     this.app.use('/api/user', RouteUser.init());
     this.app.use('/api/product', RouteProduct.init());
-    this.app.post('/', (req, res) => {
-      res.send('debugger');
-    });
-    this.app.use((err, req, res, next) => {
+    this.app.use((err, req, res) => {
       if (err instanceof ValidationError) {
         return res.status(err.statusCode).json(err.details.body[0]);
       }

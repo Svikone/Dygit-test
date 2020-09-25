@@ -20,6 +20,7 @@ export default class ProductController {
     } catch (e) {
       return res.status(500).json({ e });
     }
+    return null;
   }
 
   async getProducts(req, res) {
@@ -38,6 +39,7 @@ export default class ProductController {
     } catch (e) {
       return res.status(500).json({ e });
     }
+    return null;
   }
 
   async deleteProduct(req, res) {
@@ -110,5 +112,6 @@ export default class ProductController {
     } catch (e) {
       return res.status(500).json({ e });
     }
+    return null;
   }
 }

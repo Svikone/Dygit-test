@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
-const validateEmail = function (email) {
-  const re = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+const validateEmail = (email) => {
+  const re = /^\w+([-]?\w+)*@\w+([-]?\w+)*(\.\w{2,3})+$/;
   return re.test(email);
 };
 

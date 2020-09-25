@@ -18,11 +18,12 @@ export default class UserController {
       res.send({ message: 'Register is successful' }).status(200);
     } catch (e) {
       let message = e;
-      if (e.code = 1100) {
+      if (e.code === 1100) {
         message = 'This name is reserved';
       }
       return res.status(500).json({ message });
     }
+    return null;
   }
 
   async signIn(req, res) {
@@ -43,5 +44,6 @@ export default class UserController {
     } catch (e) {
       return res.status(500).json({ e });
     }
+    return null;
   }
 }
