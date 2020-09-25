@@ -1,10 +1,13 @@
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import {
+  Route, Switch, Redirect,
+} from 'react-router-dom';
 import { Router } from 'react-router';
 import history from '../../shared/history';
 import Header from './header/header';
 import Products from './products/products';
 import Product from './product/product';
+import RedirectRoute from '../navigation/RedirectRoute';
 
 function main() {
   return (
@@ -12,9 +15,11 @@ function main() {
       <Header />
       <Router history={history}>
         <Switch>
-          <Route path="/main/products" component={Products} />
-          <Route path="/main/create/product" component={Product} />
-          <Route path="/main/edit/product/:id" component={Product} />
+          <RedirectRoute path={['/auth/signin', '/auth/signup']} to="/main/products" />
+          <Route exact path="/main/products" component={Products} />
+          <Route exact path="/main/create/product" component={Product} />
+          <Route exact path="/main/edit/product/:id" component={Product} />
+          <Redirect from="/" to="/main/products" />
         </Switch>
       </Router>
     </div>

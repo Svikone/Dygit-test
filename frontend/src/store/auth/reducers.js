@@ -1,7 +1,7 @@
 import * as actions from './actions';
 
 const defaultState = {
-  token: '',
+  token: localStorage.getItem('token') || '',
 };
 
 const authReducer = (state = defaultState, action) => {
@@ -13,6 +13,7 @@ const authReducer = (state = defaultState, action) => {
     case actions.SIGNIN_SUCCESS:
       return {
         ...state,
+        token: action.payload,
       };
     default:
       return state;
