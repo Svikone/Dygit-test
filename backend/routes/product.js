@@ -11,7 +11,7 @@ class RouteProduct extends ProductController {
   }
 
   init() {
-    this.router.put('/', validate(MyValidation.product, {}, {}), AuthMiddleware.authenticate, this.updateProduct);
+    this.router.put('/', validate(MyValidation.update, {}, {}), AuthMiddleware.authenticate, this.updateProduct);
     this.router.get('/', AuthMiddleware.authenticate, this.getProducts);
     this.router.get('/by/:_id', AuthMiddleware.authenticate, this.getProductById);
     this.router.delete('/:_id', AuthMiddleware.authenticate, this.deleteProduct);

@@ -1,9 +1,17 @@
 import Joi from 'joi';
 
 module.exports = {
+  update: {
+    body: Joi.object().keys({
+      url_img: Joi.string().allow(''),
+      _id: Joi.string(),
+      name: Joi.string().required(),
+      description: Joi.string().required(),
+    }),
+  },
   product: {
     body: Joi.object().keys({
-      _id: Joi.string().required(),
+      url_img: Joi.string().allow(''),
       name: Joi.string().required(),
       description: Joi.string().required(),
     }),
