@@ -26,6 +26,15 @@ export const productsReducer = (state = defaultState, action) => {
         ...state,
         selectedProduct: action.payload,
       };
+    case actions.GET_PRODUCT_BY_ID_CLEAR:
+      return {
+        ...state,
+        selectedProduct: {
+          url_img: '',
+          name: '',
+          description: '',
+        },
+      };
     default:
       return state;
   }

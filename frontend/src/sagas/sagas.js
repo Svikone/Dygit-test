@@ -9,6 +9,7 @@ function* signinWorker(user) {
   try {
     const token = yield call(httpServices.post, 'user/signin', user.payload);
     localStorage.setItem('token', token.data.token);
+    yield put(authActions.signinSucces(token.data.token));
     history.push('/main/products');
   } catch (error) {
     const options = {
@@ -49,6 +50,7 @@ function* updateProductWorker(product) {
   try {
     yield call(httpServices.put, 'product', product.payload);
     history.push('/main/products');
+    yield put(productsActions.getProductByIdClear());
   } catch (error) {
     const options = {
       message: error.response.data.message,

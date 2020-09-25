@@ -25,11 +25,12 @@ function Product(props) {
     data.append('description', values.description);
     if (match.params.id) {
       data.append('_id', match.params.id);
+      resetForm({});
       props.updateProduct(data);
     } else {
+      resetForm({});
       props.addProduct(data);
     }
-    resetForm({});
   };
 
   return (
@@ -39,7 +40,7 @@ function Product(props) {
         initialValues={{
           name: selectedProduct.name,
           description: selectedProduct.description,
-          file: null,
+          file: '',
         }}
         validate={(value) => {
           const errors = {};

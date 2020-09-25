@@ -5,6 +5,7 @@ export const GET_PRODUCT_BY_ID_SUCCESS = 'GET_PRODUCT_BY_ID_SUCCESS';
 export const UPDATE_PRODUCT = 'UPDATE_PRODUCT';
 export const ADD_PRODUCT = 'ADD_PRODUCT';
 export const DELETE_PRODUCT = 'DELETE_PRODUCT';
+export const GET_PRODUCT_BY_ID_CLEAR = 'GET_PRODUCT_BY_ID_CLEAR';
 
 export const getProducts = (page) => ({
   type: GET_PRODUCTS,
@@ -39,4 +40,8 @@ export const addProduct = (data) => ({
 export const deleteProduct = (id) => ({
   type: DELETE_PRODUCT,
   payload: id,
+});
+
+export const getProductByIdClear = () => ({
+  type: GET_PRODUCT_BY_ID_CLEAR,
 });
