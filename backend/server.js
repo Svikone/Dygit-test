@@ -3,6 +3,7 @@ import bodyParser from 'body-parser';
 import 'dotenv/config';
 import cors from 'cors';
 import multer from 'multer';
+import { ValidationError } from 'express-validation';
 import MongoDB from './db';
 import RouteUser from './routes/user';
 import RouteProduct from './routes/product';
@@ -25,6 +26,15 @@ class Server extends MongoDB {
     }));
     this.app.use('/api/user', RouteUser.init());
     this.app.use('/api/product', RouteProduct.init());
+    this.app.post('/', (req, res) => {
+      res.send('debugger');
+    });
+    this.app.use((err, req, res, next) => {
+      if (err instanceof ValidationError) {
+        return res.status(err.statusCode).json(err.details.body[0]);
+      }
+      return res.status(500).json(err);
+    });
 
     this.connect();
     this.app.listen(this.port, () => {
