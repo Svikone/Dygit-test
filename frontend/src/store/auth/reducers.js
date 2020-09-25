@@ -4,7 +4,7 @@ const defaultState = {
   token: '',
 };
 
-export const authReducer = (state = defaultState, action) => {
+const authReducer = (state = defaultState, action) => {
   switch (action.type) {
     case actions.SIGNIN:
       return {
@@ -14,6 +14,9 @@ export const authReducer = (state = defaultState, action) => {
       return {
         ...state,
       };
+    default:
+      return state;
   }
-  return state;
 };
+
+export default authReducer;

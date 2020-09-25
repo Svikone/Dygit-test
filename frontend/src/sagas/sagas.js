@@ -70,6 +70,11 @@ function* deleteProductWorker(id) {
     yield call(httpServices.delete, `product/${id.payload}`);
     yield put(productsActions.getProducts());
   } catch (error) {
+    const options = {
+      message: error.message.response,
+      style: 'error',
+    };
+    yield put(appActions.showNatification(options));
   }
 }
 

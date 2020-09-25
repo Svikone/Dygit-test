@@ -1,5 +1,5 @@
-import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import React from 'react';
+import { makeStyles } from '@material-ui/core/styles';
 import {
   Card,
   CardActionArea,
@@ -9,21 +9,23 @@ import {
   Button,
   Typography,
   IconButton,
-} from "@material-ui/core";
-import DeleteIcon from "@material-ui/icons/Delete";
-import { Link } from "react-router-dom";
-import environment from "../../../../environment/environment";
-import { connect } from "react-redux";
-import { deleteProduct } from "../../../../store/main/product/actions";
+} from '@material-ui/core';
+import DeleteIcon from '@material-ui/icons/Delete';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import environment from '../../../../environment/environment';
+import { deleteProduct } from '../../../../store/main/product/actions';
 
 const useStyles = makeStyles({
   root: {
     width: 345,
-    marginTop: "10px",
+    marginTop: '10px',
   },
 });
 
 function ProductCard(props) {
+  const { item } = props;
   const classes = useStyles();
   return (
     <div className="">
@@ -33,20 +35,20 @@ function ProductCard(props) {
             component="img"
             alt="Contemplative Reptile"
             height="140"
-            image={`${environment.apiUrl}/file/uploads/${props.item.url_img}`}
+            image={`${environment.apiUrl}/file/uploads/${item.url_img}`}
             title="Contemplative Reptile"
           />
           <CardContent>
             <Typography gutterBottom variant="h5" component="h2">
-              {props.item.name}
+              {item.name}
             </Typography>
             <Typography variant="body2" color="textSecondary" component="p">
-              {props.item.description}
+              {item.description}
             </Typography>
           </CardContent>
         </CardActionArea>
         <CardActions>
-          <Link to={`/main/edit/product/${props.item._id}`}>
+          <Link to={`/main/edit/product/${item._id}`}>
             <Button size="small" color="primary">
               Edit
             </Button>
@@ -54,7 +56,7 @@ function ProductCard(props) {
           <IconButton
             aria-label="delete"
             className="right"
-            onClick={() => props.deleteProduct(props.item._id)}
+            onClick={() => props.deleteProduct(item._id)}
           >
             <DeleteIcon />
           </IconButton>
@@ -63,6 +65,17 @@ function ProductCard(props) {
     </div>
   );
 }
+
+ProductCard.propTypes = {
+  deleteProduct: PropTypes.func.isRequired,
+  item: PropTypes.shape({
+    description: PropTypes.string,
+    name: PropTypes.string,
+    url_img: PropTypes.string,
+    userId: PropTypes.string,
+    _id: PropTypes.string,
+  }).isRequired,
+};
 
 const mapDispatchToProps = (dispatch) => ({
   deleteProduct: (id) => dispatch(deleteProduct(id)),

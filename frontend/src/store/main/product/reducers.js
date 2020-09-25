@@ -9,7 +9,7 @@ const defaultState = {
   data: {
     collections: null,
     page: null,
-    pages: null,
+    pages: '',
     products: [],
   },
 };
@@ -26,6 +26,9 @@ export const productsReducer = (state = defaultState, action) => {
         ...state,
         selectedProduct: action.payload,
       };
+    default:
+      return state;
   }
-  return state;
 };
+
+export default productsReducer;

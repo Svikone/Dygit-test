@@ -4,6 +4,7 @@ import { Formik, Form, Field } from 'formik';
 import { connect } from 'react-redux';
 import { TextField } from 'formik-material-ui';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import { setSigninData } from '../../../store/auth/actions';
 
 const Signin = (props) => {
@@ -34,7 +35,7 @@ const Signin = (props) => {
         onSubmit={onSubmit}
       >
         {({
-          errors, handleSubmit, handleChange, touched, values,
+          handleSubmit, handleChange,
         }) => (
           <Form onSubmit={handleSubmit}>
             <h1>SIGN IN</h1>
@@ -66,6 +67,10 @@ const Signin = (props) => {
       </Link>
     </div>
   );
+};
+
+Signin.propTypes = {
+  setSigninData: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({

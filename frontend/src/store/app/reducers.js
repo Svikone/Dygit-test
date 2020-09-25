@@ -6,7 +6,7 @@ const defaultState = {
   showNatification: false,
 };
 
-export const appReducer = (state = defaultState, action) => {
+const appReducer = (state = defaultState, action) => {
   switch (action.type) {
     case actions.SHOW_NATIFICATION:
       return {
@@ -20,6 +20,9 @@ export const appReducer = (state = defaultState, action) => {
         ...state,
         showNatification: false,
       };
+    default:
+      return state;
   }
-  return state;
 };
+
+export default appReducer;

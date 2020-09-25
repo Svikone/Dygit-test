@@ -1,28 +1,30 @@
-import React, { useEffect } from "react";
-import Button from "@material-ui/core/Button";
-import { Formik, Form, Field } from "formik";
-import { TextField } from "formik-material-ui";
-import { connect } from "react-redux";
+import React, { useEffect } from 'react';
+import Button from '@material-ui/core/Button';
+import { Formik, Form, Field } from 'formik';
+import { TextField } from 'formik-material-ui';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import {
   getProductById,
   updateProduct,
   addProduct,
-} from "../../../store/main/product/actions";
+} from '../../../store/main/product/actions';
 
 function Product(props) {
+  const { selectedProduct, match } = props;
+
   useEffect(() => {
-    if (props.match.params.id) {
-      props.getProductById(props.match.params.id);
+    if (match.params.id) {
+      props.getProductById(match.params.id);
     }
   }, []);
-
   const onSubmit = (values, { resetForm }) => {
     const data = new FormData();
-    data.append("url_img", values.file);
-    data.append("name", values.name);
-    data.append("description", values.description);
-    if (props.match.params.id) {
-      data.append("_id", props.match.params.id);
+    data.append('url_img', values.file);
+    data.append('name', values.name);
+    data.append('description', values.description);
+    if (match.params.id) {
+      data.append('_id', match.params.id);
       props.updateProduct(data);
     } else {
       props.addProduct(data);
@@ -35,19 +37,19 @@ function Product(props) {
       <Formik
         enableReinitialize
         initialValues={{
-          name: props.selectedProduct.name,
-          description: props.selectedProduct.description,
-          file: "",
+          name: selectedProduct.name,
+          description: selectedProduct.description,
+          file: null,
         }}
         validate={(value) => {
           const errors = {};
           if (!value.name) {
-            errors.name = "Enter product name";
+            errors.name = 'Enter product name';
           } else if (/[^-А-ЯA-Z\x27а-яa-z]/.test(value.name)) {
-            errors.name = "The name contains incorrect characters";
+            errors.name = 'The name contains incorrect characters';
           }
           if (!value.description) {
-            errors.description = "Enter a description";
+            errors.description = 'Enter a description';
           }
           return errors;
         }}
@@ -58,11 +60,10 @@ function Product(props) {
           handleSubmit,
           handleChange,
           touched,
-          values,
           setFieldValue,
         }) => (
           <Form onSubmit={handleSubmit}>
-            {props.match.params.id ? (
+            {match.params.id ? (
               <h1>Update product</h1>
             ) : (
               <h1>Add product</h1>
@@ -73,10 +74,8 @@ function Product(props) {
               <input
                 type="file"
                 name="file"
-                onChange={(ev) =>
-                  setFieldValue("file", ev.currentTarget.files[0])
-                }
-                style={{ display: "none" }}
+                onChange={(ev) => setFieldValue('file', ev.currentTarget.files[0])}
+                style={{ display: 'none' }}
               />
             </Button>
             {errors.file && touched.file ? (
@@ -106,6 +105,20 @@ function Product(props) {
     </div>
   );
 }
+
+Product.propTypes = {
+  getProductById: PropTypes.func.isRequired,
+  match: PropTypes.objectOf(PropTypes.any).isRequired,
+  updateProduct: PropTypes.func.isRequired,
+  addProduct: PropTypes.func.isRequired,
+  selectedProduct: PropTypes.shape({
+    description: PropTypes.string,
+    name: PropTypes.string,
+    url_img: PropTypes.string,
+    userId: PropTypes.string,
+    _id: PropTypes.string,
+  }).isRequired,
+};
 
 const mapStateToProps = (state) => ({
   selectedProduct: state.products.selectedProduct,

@@ -4,6 +4,7 @@ import { Formik, Form, Field } from 'formik';
 import { TextField } from 'formik-material-ui';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import httpServices from '../../../services/http.service';
 import history from '../../../shared/history';
 import { showNatification } from '../../../store/app/actions';
@@ -53,7 +54,7 @@ const Signup = (props) => {
         onSubmit={onSubmit}
       >
         {({
-          errors, handleSubmit, handleChange, touched, values,
+          handleSubmit, handleChange,
         }) => (
           <Form onSubmit={handleSubmit}>
             <h1>SIGN UP</h1>
@@ -92,6 +93,10 @@ const Signup = (props) => {
       </Link>
     </div>
   );
+};
+
+Signup.propTypes = {
+  showNatification: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({

@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
-import { authReducer } from './auth/reducers';
-import { productsReducer } from './main/product/reducers';
-import { appReducer } from './app/reducers';
+import authReducer from './auth/reducers';
+import appReducer from './app/reducers';
+import productsReducer from './main/product/reducers';
 
 export default combineReducers({
   app: appReducer,

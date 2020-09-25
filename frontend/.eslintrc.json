@@ -7,6 +7,25 @@
     }
   },
   "globals": {
-    "localStorage": true
+    "localStorage": true,
+    "FormData": true
+  },
+  "rules": {
+    "linebreak-style": 0,
+    " global-require ": 0,
+    " eslint linebreak-style ": [0, " error ", " windows "],
+    "no-undescore-dangle": [
+      "error",
+      {
+        "allow": ["_id"]
+      }
+    ],
+    "react/jsx-filename-extension": [
+      1,
+      {
+        "extensions": [".js", ".jsx"]
+      }
+    ],
+    "import/no-named-as-default": 0
   }
 }

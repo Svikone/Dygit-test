@@ -1,9 +1,9 @@
-import React from "react";
-import { BrowserRouter, Route } from "react-router-dom";
-import { Router } from "react-router";
-import history from "../../shared/history";
-import signin from "./signin/signin";
-import signup from "./signup/signup";
+import React from 'react';
+import { Route } from 'react-router-dom';
+import { Router } from 'react-router';
+import history from '../../shared/history';
+import signin from './signin/signin';
+import signup from './signup/signup';
 
 function auth() {
   return (
