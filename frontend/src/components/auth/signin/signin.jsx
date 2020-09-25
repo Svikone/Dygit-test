@@ -34,9 +34,7 @@ const Signin = (props) => {
         }}
         onSubmit={onSubmit}
       >
-        {({
-          handleSubmit, handleChange,
-        }) => (
+        {({ handleSubmit, handleChange }) => (
           <Form onSubmit={handleSubmit}>
             <h1>SIGN IN</h1>
 
@@ -56,12 +54,14 @@ const Signin = (props) => {
               onChange={handleChange}
             />
 
-            <Button type="submit">Submit</Button>
+            <Button type="submit" color="primary">
+              Submit
+            </Button>
           </Form>
         )}
       </Formik>
       <Link to="/auth/signup">
-        <Button variant="contained" color="primary" className="m-top">
+        <Button variant="contained" className="m-top">
           Register
         </Button>
       </Link>

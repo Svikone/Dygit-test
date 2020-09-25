@@ -1,10 +1,10 @@
-import React from "react";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
-import { Router } from "react-router";
-import history from "../../shared/history";
-import Header from "./header/header";
-import Products from "./products/products";
-import Product from "./product/product";
+import React from 'react';
+import { Route, Switch } from 'react-router-dom';
+import { Router } from 'react-router';
+import history from '../../shared/history';
+import Header from './header/header';
+import Products from './products/products';
+import Product from './product/product';
 
 function main() {
   return (

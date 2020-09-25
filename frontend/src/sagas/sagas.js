@@ -37,6 +37,11 @@ function* getProductByIdWorker(id) {
     const selectProduct = yield call(httpServices.get, `product/by/${id.payload}`);
     yield put(productsActions.getProductByIdSuccess(selectProduct.data));
   } catch (error) {
+    const options = {
+      message: error.response.data.message,
+      style: 'error',
+    };
+    yield put(appActions.showNatification(options));
   }
 }
 

@@ -54,7 +54,7 @@ function Products(props) {
         <div className="">
           <h1>All products</h1>
           <div className="container" style={productStyle}>
-            {products.map((item, i) => (
+            {products.map((item) => (
               <ProductCard key={item._id} item={item} />
             ))}
             <div className={classes.root}>
