@@ -11,21 +11,23 @@ import { showNatification } from '../../../store/app/actions';
 
 const Signup = (props) => {
   const onSubmit = async (values, { resetForm }) => {
-    try {
-      await httpServices.post('user/signup', values);
-      resetForm({});
-      history.push('/auth/signin');
-    } catch (error) {
-      const options = {
-        message: error.message,
-        style: 'error',
-      };
-      props.showNatification(options);
-    }
+    httpServices.post('user/signup', values).then(
+      () => {
+        resetForm({});
+        history.push('/auth/signin');
+      },
+      (err) => {
+        const options = {
+          message: err.response.data.message.message,
+          style: 'error',
+        };
+        props.showNatification(options);
+      },
+    );
   };
 
   return (
-    <div className="">
+    <div>
       <Formik
         initialValues={{
           name: '',

@@ -13,7 +13,10 @@ import Natification from './shared/natification';
 import Navigation from './components/navigation/Navigation';
 
 const sagaMiidleware = createSagaMiddleware();
-const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(logger, sagaMiidleware)));
+const store = createStore(
+  rootReducer,
+  composeWithDevTools(applyMiddleware(logger, sagaMiidleware)),
+);
 sagaMiidleware.run(watchLoadData);
 
 function App() {
