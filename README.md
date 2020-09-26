@@ -25,10 +25,10 @@ adding a new product
 
 # Installation and running
 
-## Mongodb
+## Data base
 
     You must have mongodb installed
-    Сhange file example.env to .env
+    Need rename example.env file to .env
 
 ## Backend start
 
