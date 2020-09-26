@@ -17,7 +17,7 @@ const Signup = (props) => {
       history.push('/auth/signin');
     } catch (error) {
       const options = {
-        message: error.response.data.message,
+        message: error.message,
         style: 'error',
       };
       props.showNatification(options);
