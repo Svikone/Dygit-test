@@ -9,34 +9,41 @@ adding a new product
 
 # Development Tools:
 
-# Backend:
+## Backend:
 
-        * Nodejs
-        * Express
-        * Mongodb
-        * Mongoose
-        * Bable
+- Nodejs
+- Express
+- Mongodb
+- Mongoose
+- Bable
 
-# Frontend:
+## Frontend:
 
-        * React
-        * Redux
-        * Saga
+- React
+- Redux
+- Saga
 
 # Installation and running
 
-    # Mongodb
-        You must have mongodb installed
-        Сhange file example.env to .env
+## Mongodb
 
-    # Backend start
-        cd backend
-        npm i
-        npm run dev
+You must have mongodb installed
+Сhange file example.env to .env
 
-    # Frontend start
-        cd frontend
-        npm i
-        npm start
+## Backend start
 
-        Open in browser: http://localhost:3000
+cd backend
+
+npm i
+
+npm run dev
+
+## Frontend start
+
+cd frontend
+
+npm i
+
+npm start
+
+Open in browser: http://localhost:3000
