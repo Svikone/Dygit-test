@@ -24,7 +24,7 @@ module.exports = {
   },
   signUp: {
     body: Joi.object().keys({
-      name: Joi.string().required().uppercase(),
+      name: Joi.string().required(),
       email: Joi.string().email({ tlds: { allow: ['com', 'net'] } }).required(),
       password: Joi.string().regex(/[a-zA-Z0-9]{1,30}/).required(),
     }),
