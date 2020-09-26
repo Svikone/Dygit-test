@@ -27,23 +27,23 @@ adding a new product
 
 ## Mongodb
 
-You must have mongodb installed
-Сhange file example.env to .env
+    You must have mongodb installed
+    Сhange file example.env to .env
 
 ## Backend start
 
-cd backend
+    cd backend
 
-npm i
+    npm i
 
-npm run dev
+    npm run dev
 
 ## Frontend start
 
-cd frontend
+    cd frontend
 
-npm i
+    npm i
 
-npm start
+    npm start
 
-Open in browser: http://localhost:3000
+    Open in browser: http://localhost:3000
