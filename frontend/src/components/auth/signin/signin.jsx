@@ -57,14 +57,12 @@ const Signin = (props) => {
             <Button type="submit" color="primary">
               Submit
             </Button>
+            <Link to="/auth/signup" className="m-top">
+              <Button variant="contained">Register</Button>
+            </Link>
           </Form>
         )}
       </Formik>
-      <Link to="/auth/signup">
-        <Button variant="contained" className="m-top">
-          Register
-        </Button>
-      </Link>
     </div>
   );
 };

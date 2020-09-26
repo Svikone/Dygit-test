@@ -17,6 +17,7 @@ form {
   flex-direction: column;
   max-width: 618px;
   margin: auto;
+  text-align: center;
 }
 
 a {

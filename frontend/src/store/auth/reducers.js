@@ -15,6 +15,11 @@ const authReducer = (state = defaultState, action) => {
         ...state,
         token: action.payload,
       };
+    case actions.CLEAR_TOKEN:
+      return {
+        ...state,
+        token: '',
+      };
     default:
       return state;
   }
