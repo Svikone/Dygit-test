@@ -35,8 +35,11 @@ function Products(props) {
   const pages = useSelector((state) => +state.products.data.pages);
 
   useEffect(() => {
-    const numberPage = +qs.parse(props.location.search, { ignoreQueryPrefix: true })
+    let numberPage = +qs.parse(props.location.search, { ignoreQueryPrefix: true })
       .page;
+    if (!numberPage) {
+      numberPage = 1;
+    }
     setPage(numberPage);
     dispatch(getProducts(numberPage || 1));
   }, []);
@@ -47,7 +50,7 @@ function Products(props) {
       pathname: '/main/products',
       search: `?page=${value}`,
     });
-    dispatch(getProducts(value || 1));
+    dispatch(getProducts(value));
   };
 
   return (
