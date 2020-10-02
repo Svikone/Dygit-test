@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import Pagination from '@material-ui/lab/Pagination';
 import qs from 'qs';
@@ -28,15 +28,17 @@ const productStyle = {
 };
 
 function Products(props) {
-  const { products, pages } = props;
+  const dispatch = useDispatch();
   const classes = useStyles();
   const [page, setPage] = React.useState(1);
+  const products = useSelector((state) => state.products.data.products);
+  const pages = useSelector((state) => +state.products.data.pages);
 
   useEffect(() => {
     const numberPage = +qs.parse(props.location.search, { ignoreQueryPrefix: true })
       .page;
     setPage(numberPage);
-    props.getProducts(numberPage || 1);
+    dispatch(getProducts(numberPage || 1));
   }, []);
 
   const handleChange = (event, value) => {
@@ -45,7 +47,7 @@ function Products(props) {
       pathname: '/main/products',
       search: `?page=${value}`,
     });
-    props.getProducts(value || 1);
+    dispatch(getProducts(value || 1));
   };
 
   return (
@@ -76,27 +78,6 @@ function Products(props) {
 
 Products.propTypes = {
   location: PropTypes.objectOf(PropTypes.any).isRequired,
-  getProducts: PropTypes.func.isRequired,
-  products: PropTypes.arrayOf(
-    PropTypes.shape({
-      description: PropTypes.string,
-      name: PropTypes.string,
-      url_img: PropTypes.string,
-      userId: PropTypes.string,
-      _id: PropTypes.string,
-    }),
-  ).isRequired,
-  pages: PropTypes.number.isRequired,
 };
 
-const mapStateToProps = (state) => ({
-  products: state.products.data.products,
-  pages: +state.products.data.pages,
-  page: state.products.data.page,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  getProducts: (page) => dispatch(getProducts(page)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Products);
+export default Products;

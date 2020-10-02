@@ -12,7 +12,7 @@ import {
 } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import environment from '../../../../environment/environment';
 import { deleteProduct } from '../../../../store/main/product/actions';
@@ -27,6 +27,8 @@ const useStyles = makeStyles({
 function ProductCard(props) {
   const { item } = props;
   const classes = useStyles();
+  const dispatch = useDispatch();
+
   return (
     <div className="">
       <Card className={classes.root}>
@@ -56,7 +58,7 @@ function ProductCard(props) {
           <IconButton
             aria-label="delete"
             className="right"
-            onClick={() => props.deleteProduct(item._id)}
+            onClick={() => dispatch(deleteProduct(item._id))}
           >
             <DeleteIcon />
           </IconButton>
@@ -67,7 +69,6 @@ function ProductCard(props) {
 }
 
 ProductCard.propTypes = {
-  deleteProduct: PropTypes.func.isRequired,
   item: PropTypes.shape({
     description: PropTypes.string,
     name: PropTypes.string,
@@ -77,8 +78,4 @@ ProductCard.propTypes = {
   }).isRequired,
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  deleteProduct: (id) => dispatch(deleteProduct(id)),
-});
-
-export default connect(null, mapDispatchToProps)(ProductCard);
+export default ProductCard;
