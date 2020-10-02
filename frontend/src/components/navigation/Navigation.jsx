@@ -1,21 +1,15 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import NotAuthorizedRouter from '../auth/auth';
 import AuthorizedRouter from '../main/main';
 
-const Navigation = ({ token }) => (
-  token
-    ? <AuthorizedRouter />
-    : <NotAuthorizedRouter />
-);
-
-const mapStateToProps = (state) => ({
-  token: state.auth.token,
-});
-
-Navigation.propTypes = {
-  token: PropTypes.string.isRequired,
+const Navigation = () => {
+  const token = useSelector((state) => state.auth.token);
+  return (
+    token
+      ? <AuthorizedRouter />
+      : <NotAuthorizedRouter />
+  );
 };
 
-export default connect(mapStateToProps, null)(Navigation);
+export default Navigation;

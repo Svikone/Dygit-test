@@ -3,13 +3,13 @@ import Button from '@material-ui/core/Button';
 import { Formik, Form, Field } from 'formik';
 import { TextField } from 'formik-material-ui';
 import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
 import httpServices from '../../../services/http.service';
 import history from '../../../shared/history';
 import { showNatification } from '../../../store/app/actions';
 
-const Signup = (props) => {
+const Signup = () => {
+  const dispatch = useDispatch();
   const onSubmit = async (values, { resetForm }) => {
     httpServices.post('user/signup', values).then(
       () => {
@@ -21,7 +21,7 @@ const Signup = (props) => {
           message: err.response.data.message.message,
           style: 'error',
         };
-        props.showNatification(options);
+        dispatch(showNatification(options));
       },
     );
   };
@@ -95,12 +95,4 @@ const Signup = (props) => {
   );
 };
 
-Signup.propTypes = {
-  showNatification: PropTypes.func.isRequired,
-};
-
-const mapDispatchToProps = (dispatch) => ({
-  showNatification: (options) => dispatch(showNatification(options)),
-});
-
-export default connect(null, mapDispatchToProps)(Signup);
+export default Signup;

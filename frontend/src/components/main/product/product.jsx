@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import Button from '@material-ui/core/Button';
 import { Formik, Form, Field } from 'formik';
 import { TextField } from 'formik-material-ui';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
   getProductById,
@@ -11,11 +11,13 @@ import {
 } from '../../../store/main/product/actions';
 
 function Product(props) {
-  const { selectedProduct, match } = props;
+  const dispatch = useDispatch();
+  const selectedProduct = useSelector((state) => state.products.selectedProduct);
+  const { match } = props;
 
   useEffect(() => {
     if (match.params.id) {
-      props.getProductById(match.params.id);
+      dispatch(getProductById(match.params.id));
     }
   }, []);
   const onSubmit = (values, { resetForm }) => {
@@ -26,10 +28,10 @@ function Product(props) {
     if (match.params.id) {
       data.append('_id', match.params.id);
       resetForm({});
-      props.updateProduct(data);
+      dispatch(updateProduct(data));
     } else {
       resetForm({});
-      props.addProduct(data);
+      dispatch(addProduct(data));
     }
   };
 
@@ -64,11 +66,7 @@ function Product(props) {
           setFieldValue,
         }) => (
           <Form onSubmit={handleSubmit}>
-            {match.params.id ? (
-              <h1>Update product</h1>
-            ) : (
-              <h1>Add product</h1>
-            )}
+            {match.params.id ? <h1>Update product</h1> : <h1>Add product</h1>}
 
             <Button variant="contained" component="label">
               Upload File
@@ -108,27 +106,7 @@ function Product(props) {
 }
 
 Product.propTypes = {
-  getProductById: PropTypes.func.isRequired,
   match: PropTypes.objectOf(PropTypes.any).isRequired,
-  updateProduct: PropTypes.func.isRequired,
-  addProduct: PropTypes.func.isRequired,
-  selectedProduct: PropTypes.shape({
-    description: PropTypes.string,
-    name: PropTypes.string,
-    url_img: PropTypes.string,
-    userId: PropTypes.string,
-    _id: PropTypes.string,
-  }).isRequired,
 };
 
-const mapStateToProps = (state) => ({
-  selectedProduct: state.products.selectedProduct,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  getProductById: (id) => dispatch(getProductById(id)),
-  updateProduct: (product) => dispatch(updateProduct(product)),
-  addProduct: (product) => dispatch(addProduct(product)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Product);
+export default Product;

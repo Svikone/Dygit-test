@@ -1,15 +1,15 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
 import { Formik, Form, Field } from 'formik';
-import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { TextField } from 'formik-material-ui';
 import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
 import { setSigninData } from '../../../store/auth/actions';
 
-const Signin = (props) => {
+const Signin = () => {
+  const dispatch = useDispatch();
   const onSubmit = (values, { resetForm }) => {
-    props.setSigninData(values);
+    dispatch(setSigninData(values));
     resetForm({});
   };
 
@@ -67,12 +67,4 @@ const Signin = (props) => {
   );
 };
 
-Signin.propTypes = {
-  setSigninData: PropTypes.func.isRequired,
-};
-
-const mapDispatchToProps = (dispatch) => ({
-  setSigninData: (values) => dispatch(setSigninData(values)),
-});
-
-export default connect(null, mapDispatchToProps)(Signin);
+export default Signin;

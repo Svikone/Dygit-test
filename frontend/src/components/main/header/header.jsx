@@ -1,15 +1,15 @@
 import React from 'react';
 import { AppBar, Toolbar, Button } from '@material-ui/core';
 import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
 import { clearToken } from '../../../store/auth/actions';
 import history from '../../../shared/history';
 
-function Header(props) {
-  const { token } = props;
+function Header() {
+  const dispatch = useDispatch();
+  const token = useSelector((state) => state.auth.token);
   function exit() {
-    props.clearToken();
+    dispatch(clearToken());
     localStorage.removeItem('token');
     history.push('/auth/signin');
   }
@@ -39,17 +39,4 @@ function Header(props) {
   );
 }
 
-const mapStateToProps = (state) => ({
-  token: state.auth.token,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  clearToken: () => dispatch(clearToken()),
-});
-
-Header.propTypes = {
-  token: PropTypes.string.isRequired,
-  clearToken: PropTypes.func.isRequired,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
+export default Header;
