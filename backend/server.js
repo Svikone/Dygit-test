@@ -5,8 +5,8 @@ import cors from 'cors';
 import multer from 'multer';
 import { ValidationError } from 'express-validation';
 import MongoDB from './db';
-import RouteUser from './routes/user';
-import RouteProduct from './routes/product';
+import routerUsers from './routes/user';
+import routerProducts from './routes/product';
 
 class Server extends MongoDB {
   constructor() {
@@ -24,8 +24,8 @@ class Server extends MongoDB {
       extended: true,
       limit: '50mb',
     }));
-    this.app.use('/api/user', RouteUser.init());
-    this.app.use('/api/product', RouteProduct.init());
+    this.app.use('/api/user', routerUsers);
+    this.app.use('/api/product', routerProducts);
     this.app.use((err, req, res) => {
       if (err instanceof ValidationError) {
         return res.status(err.statusCode).json(err);
