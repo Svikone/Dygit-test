@@ -2,8 +2,7 @@ import React, { useEffect } from 'react';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 import { makeStyles } from '@material-ui/core/styles';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
 import { hideNatification } from '../store/app/actions';
 
 function Alert(props) {
@@ -19,18 +18,19 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function CustomizedSnackbars(props) {
+function CustomizedSnackbars() {
+  const dispatch = useDispatch();
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
-  const {
-    show, message, style,
-  } = props;
+  const show = useSelector((state) => state.app.showNatification);
+  const message = useSelector((state) => state.app.messageNatification);
+  const style = useSelector((state) => state.app.styleNatification);
 
   useEffect(() => {
     if (show) {
       setOpen(true);
       setTimeout(() => {
-        props.hideNatification();
+        dispatch(hideNatification());
         setOpen(false);
       }, 6000);
     }
@@ -54,24 +54,4 @@ function CustomizedSnackbars(props) {
   );
 }
 
-CustomizedSnackbars.propTypes = {
-  hideNatification: PropTypes.func.isRequired,
-  show: PropTypes.bool.isRequired,
-  message: PropTypes.string.isRequired,
-  style: PropTypes.string.isRequired,
-};
-
-const mapStateToProps = (state) => ({
-  show: state.app.showNatification,
-  message: state.app.messageNatification,
-  style: state.app.styleNatification,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  hideNatification: () => dispatch(hideNatification()),
-});
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(CustomizedSnackbars);
+export default CustomizedSnackbars;
