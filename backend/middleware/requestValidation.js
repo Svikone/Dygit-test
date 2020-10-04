@@ -1,6 +1,6 @@
 import Joi from 'joi';
 
-module.exports = {
+export default {
   update: {
     body: Joi.object().keys({
       url_img: Joi.string().allow(''),

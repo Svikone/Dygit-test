@@ -1,117 +1,115 @@
 import mongoose from 'mongoose';
 import Product from '../models/product';
-import Expansion from '../shared/expansion';
+import { deleteImg, fileFilter, pagination } from '../shared/expansion';
 
-export default class ProductController {
-  async addProduct(req, res) {
-    try {
-      const { name, description } = req.body;
-      const { userId } = req.user;
-      const product = {
-        name, description, userId,
-      };
-      if (req.files.length > 0) {
-        product.url_img = req.files[0].filename;
-      } else {
-        product.url_img = '404.png';
-      }
-      await Product(product).save();
-      res.send(product).status(200);
-    } catch (e) {
-      return res.status(500).json({ e });
-    }
-    return null;
-  }
-
-  async getProducts(req, res) {
+export async function addProduct(req, res) {
+  try {
+    const { name, description } = req.body;
     const { userId } = req.user;
-    const {
-      page, collections, pages, skip,
-    } = await Expansion.pagination(req.query.page, Product, userId);
-    try {
-      const products = await Product.find({ userId }).skip(skip).limit(10);
-      res.send({
-        products,
-        collections,
-        pages,
-        page,
-      }).status(200);
-    } catch (e) {
-      return res.status(500).json({ e });
+    const product = {
+      name, description, userId,
+    };
+    if (req.files.length > 0) {
+      product.url_img = req.files[0].filename;
+    } else {
+      product.url_img = '404.png';
     }
-    return null;
+    await Product(product).save();
+    res.send(product).status(200);
+  } catch (e) {
+    return res.status(500).json({ e });
   }
+  return null;
+}
 
-  async deleteProduct(req, res) {
-    try {
-      const { _id } = req.params;
-      const product = await Product.findOneAndDelete({ _id });
+export async function getProducts(req, res) {
+  const { userId } = req.user;
+  const {
+    page, collections, pages, skip,
+  } = await pagination(req.query.page, Product, userId);
+  try {
+    const products = await Product.find({ userId }).skip(skip).limit(10);
+    res.send({
+      products,
+      collections,
+      pages,
+      page,
+    }).status(200);
+  } catch (e) {
+    return res.status(500).json({ e });
+  }
+  return null;
+}
 
-      if (!product) {
-        return res.status(500).json({ message: 'Removal is not possible' });
-      }
-      if (product.url_img !== '404.png') {
-        Expansion.deleteImg(product.url_img);
-      }
-      return res.send({ message: 'Product deleted' }).status(200);
-    } catch (e) {
-      return res.status(500).json({ e });
+export async function deleteProduct(req, res) {
+  try {
+    const { _id } = req.params;
+    const product = await Product.findOneAndDelete({ _id });
+
+    if (!product) {
+      return res.status(500).json({ message: 'Removal is not possible' });
     }
+    if (product.url_img !== '404.png') {
+      deleteImg(product.url_img);
+    }
+    return res.send({ message: 'Product deleted' }).status(200);
+  } catch (e) {
+    return res.status(500).json({ e });
   }
+}
 
-  async updateProduct(req, res) {
-    try {
-      const { _id, name, description } = req.body;
-      const filesLength = req.files.length;
-      let urlImg = '';
-      const product = await Product.findOne(mongoose.Types.ObjectId(_id));
+export async function updateProduct(req, res) {
+  try {
+    const { _id, name, description } = req.body;
+    const filesLength = req.files.length;
+    let urlImg = '';
+    const product = await Product.findOne(mongoose.Types.ObjectId(_id));
 
-      if (!product) {
-        if (filesLength) {
-          Expansion.deleteImg(req.files[0].filename);
-        }
-        return res.status(404).json({ message: 'Doc is not exist' });
-      }
-
+    if (!product) {
       if (filesLength) {
-        urlImg = req.files[0].filename;
-        const permision = Expansion.fileFilter(req.files[0].mimetype);
-        if (!permision) {
-          Expansion.deleteImg(urlImg);
-          return res.status(500).json({ message: 'Wrong file type' });
-        }
+        deleteImg(req.files[0].filename);
       }
-      const oldImg = product.url_img;
-      product.name = name;
-      product.description = description;
-      product.url_img = filesLength ? urlImg : oldImg;
-      const updateProduct = await product.save();
-      if (!updateProduct) {
-        if (filesLength) {
-          Expansion.deleteImg(urlImg);
-        }
-        return res.status(500).json({ message: 'errr' });
-      }
-      if (filesLength && oldImg !== '404.png') {
-        Expansion.deleteImg(oldImg);
-      }
-      return res.send({ message: 'Product update' }).status(200);
-    } catch (e) {
-      return res.status(500).json({ e });
+      return res.status(404).json({ message: 'Doc is not exist' });
     }
-  }
 
-  async getProductById(req, res) {
-    try {
-      const { _id } = req.params;
-      const product = await Product.findOne({ _id });
-      if (!product) {
-        return res.status(500).json({ message: 'Product not found' });
+    if (filesLength) {
+      urlImg = req.files[0].filename;
+      const permision = fileFilter(req.files[0].mimetype);
+      if (!permision) {
+        deleteImg(urlImg);
+        return res.status(500).json({ message: 'Wrong file type' });
       }
-      res.send(product).status(200);
-    } catch (e) {
-      return res.status(500).json({ e });
     }
-    return null;
+    const oldImg = product.url_img;
+    product.name = name;
+    product.description = description;
+    product.url_img = filesLength ? urlImg : oldImg;
+    const updatingProduct = await product.save();
+    if (!updatingProduct) {
+      if (filesLength) {
+        deleteImg(urlImg);
+      }
+      return res.status(500).json({ message: 'errr' });
+    }
+    if (filesLength && oldImg !== '404.png') {
+      deleteImg(oldImg);
+    }
+    return res.send({ message: 'Product update' }).status(200);
+  } catch (e) {
+    return res.status(500).json({ e });
   }
+}
+
+export async function getProductById(req, res) {
+  try {
+    const { _id } = req.params;
+    const product = await Product.findOne({ _id });
+    if (!product) {
+      return res.status(500).json({ message: 'Product not found' });
+    }
+    res.send(product).status(200);
+  } catch (e) {
+    return res.status(500).json({ e });
+  }
+  return null;
 }

@@ -1,22 +1,17 @@
 import express from 'express';
 import { validate } from 'express-validation';
-import ProductController from '../controllers/product';
-import AuthMiddleware from '../middleware/auth';
+import {
+  addProduct, deleteProduct, getProductById, getProducts, updateProduct,
+} from '../controllers/product';
+import authenticate from '../middleware/auth';
 import MyValidation from '../middleware/requestValidation';
 
-class RouteProduct extends ProductController {
-  constructor() {
-    super();
-    this.router = express.Router();
-  }
+const routerProducts = express.Router();
 
-  init() {
-    this.router.put('/', validate(MyValidation.update, {}, {}), AuthMiddleware.authenticate, this.updateProduct);
-    this.router.get('/', AuthMiddleware.authenticate, this.getProducts);
-    this.router.get('/by/:_id', AuthMiddleware.authenticate, this.getProductById);
-    this.router.delete('/:_id', AuthMiddleware.authenticate, this.deleteProduct);
-    this.router.post('/', validate(MyValidation.product, {}, {}), AuthMiddleware.authenticate, this.addProduct);
-    return this.router;
-  }
-}
-module.exports = new RouteProduct();
+routerProducts.put('/', validate(MyValidation.update, {}, {}), authenticate, updateProduct);
+routerProducts.get('/', authenticate, getProducts);
+routerProducts.get('/by/:_id', authenticate, getProductById);
+routerProducts.delete('/:_id', authenticate, deleteProduct);
+routerProducts.post('/', validate(MyValidation.product, {}, {}), authenticate, addProduct);
+
+export default routerProducts;
